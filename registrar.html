@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrar Asistencia</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header>📝 Registro de Asistencia</header>
+    <main>
+      <input id="codigo" placeholder="Código del alumno" /><br />
+      <input id="nombre" placeholder="Nombre del alumno" /><br />
+      <button onclick="enviarAsistencia()">Registrar</button>
+      <p id="mensaje"></p>
+      <a href="index.html" class="btn">⬅ Volver</a>
+    </main>
+
+    <script>
+      const URL =
+        "https://script.google.com/macros/s/AKfycbw9jFyQpyaAYOgF0L9ZGjFjblwg_WurOfbAbwgzsQAGmof5jJjalc8iXk_0faK0qrtm/exec"; // 🔗 Pega aquí tu URL del Google Apps Script
+
+      async function enviarAsistencia() {
+        const codigo = document.getElementById("codigo").value.trim();
+        const nombre = document.getElementById("nombre").value.trim();
+        const mensaje = document.getElementById("mensaje");
+
+        if (!codigo || !nombre) {
+          mensaje.textContent = "Por favor, completa ambos campos.";
+          return;
+        }
+
+        try {
+          const res = await fetch(URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ codigo, nombre }),
+          });
+          const result = await res.json();
+          mensaje.textContent = result.mensaje || "Asistencia registrada";
+        } catch (error) {
+          mensaje.textContent = "Error al registrar asistencia: " + error;
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generar QR Personal</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header>🔳 Generador de Código QR</header>
+    <main>
+      <input id="codigo" placeholder="Código del alumno" /><br />
+      <input id="nombre" placeholder="Nombre del alumno" /><br />
+      <button onclick="generarQR()">Generar QR</button>
+
+      <div id="qrcode" style="margin-top: 20px"></div>
+      <a href="index.html" class="btn">⬅ Volver</a>
+    </main>
+    <script src="js/qrcode.min.js"></script>
+    <script src="js/qr.min.js"></script>
+    <script>
+      function generarQR() {
+        const codigo = document.getElementById("codigo").value.trim();
+        const nombre = document.getElementById("nombre").value.trim();
+        const container = document.getElementById("qrcode");
+        container.innerHTML = ""; // Limpia anterior
+
+        if (!codigo || !nombre) {
+          container.innerHTML = "<p>Por favor completa ambos campos.</p>";
+          return;
+        }
+
+        const data = JSON.stringify({ codigo, nombre });
+        new QRCode(container, {
+          text: data,
+          width: 200,
+          height: 200,
+        });
+      }
+    </script>
+  </body>
+</html>
